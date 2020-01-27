@@ -28,3 +28,14 @@ public class CustomerController {
   }
 
 }
+
+/* - 6 -->  (Coming from CreditCardRepository)
+Check out the signin_form template: the <form> posts its data to the /login endpoint of your server.
+This request is handled by CustomerController. This controller has two methods, which accept incoming
+data via their parameters (annotated with @RequestParam). Obviously, login is the relevant one here.
+*/
+
+
+
+
+
