@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import com.bankzecure.webapp.entity.*;
 import com.bankzecure.webapp.JdbcUtils;
 
+
+
+
 public class CustomerRepository {
   private final static String DB_URL = "jdbc:mysql://localhost:3306/springboot_bankzecure?serverTimezone=GMT";
 	private final static String DB_USERNAME = "bankzecure";
@@ -32,14 +35,15 @@ public class CustomerRepository {
    Indeed, one of them works. But you always end up on the same customer's profile. Try and think how you could
    refine the attack, in order to gain access to anyone's account.
 */ 
-    
+
+   
     
     try {
       connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 //      preparedStatement = connection.createStatement();
 //      final String query = "SELECT * FROM customer " +
 //        "WHERE identifier = '" + identifier + "' AND password = '" + password + "'";
-      preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE identifier = ? AND passwortd = ?");
+      	preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE identifier = ? AND passwortd = ?");      	
       	preparedStatement.setString(1, identifier);
       	preparedStatement.setString(2,  password);
       
@@ -67,7 +71,7 @@ public class CustomerRepository {
     return null;
   }
 
-  
+ 
   
   public Customer update(String identifier, String newEmail, String newPassword) {
 
@@ -84,8 +88,13 @@ public class CustomerRepository {
            
         // Build the update query using a QueryBuilder
         StringBuilder queryBuilder = new StringBuilder();
-//        queryBuilder.append("UPDATE customer SET email = '" + newEmail + "'");
-        queryBuilder.append("Update customer Set email = ?");
+//      queryBuilder.append("UPDATE customer SET email = '" + newEmail + "'");
+        queryBuilder.append("UPDATE customer SET email = ?");
+        
+        
+        
+     
+  
         
         // Don't set the password in the update query, if it's not provided
         if (newPassword != "") {
@@ -93,16 +102,16 @@ public class CustomerRepository {
         queryBuilder.append(",password = ?");
         }
 //        queryBuilder.append(" WHERE identifier = '" + identifier + "'");
-        queryBuilder.append(" WHERE identifier =?");
+        queryBuilder.append(" WHERE identifier = ?");
         String query = queryBuilder.toString();
         preparedStatement = connection.prepareStatement(query);  // --> check this one better... !!!!
 //        statement.executeUpdate(query);
         preparedStatement.setString(1, newEmail);
         if (newPassword != "") {
         	preparedStatement.setString(2, newPassword);
-        	preparedStatement.setString(3,  identifier);
+        	preparedStatement.setString(3, identifier);
 		} else {
-			preparedStatement.setString(2,  identifier);
+			preparedStatement.setString(2, identifier);
 		}
         
         if (preparedStatement.executeUpdate() != 1) {
@@ -111,6 +120,10 @@ public class CustomerRepository {
 
         JdbcUtils.closeStatement(preparedStatement);
         JdbcUtils.closeConnection(connection);
+        
+        
+
+        
         
         
 
