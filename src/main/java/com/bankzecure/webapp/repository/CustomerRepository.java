@@ -43,7 +43,7 @@ public class CustomerRepository {
 //      preparedStatement = connection.createStatement();
 //      final String query = "SELECT * FROM customer " +
 //        "WHERE identifier = '" + identifier + "' AND password = '" + password + "'";
-      	preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE identifier = ? AND passwortd = ?");      	
+      	preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE identifier = ? AND password = ?");      	
       	preparedStatement.setString(1, identifier);
       	preparedStatement.setString(2,  password);
       
